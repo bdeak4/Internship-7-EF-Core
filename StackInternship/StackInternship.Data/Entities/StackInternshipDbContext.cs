@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
+using StackInternship.Data.Entities.Models;
 using System.IO;
 using System.Linq;
 
@@ -11,6 +12,9 @@ namespace StackInternship.Data.Entities
         public StackInternshipDbContext(DbContextOptions options) : base(options)
         {
         }
+
+        public DbSet<Resource> Resources { get; set; }
+        public DbSet<User> Users { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -30,7 +34,7 @@ namespace StackInternship.Data.Entities
             configuration
                 .Providers
                 .First()
-                .TryGet("connectionString:add:StackInternship:connectionString", out var connectionString);
+                .TryGet("connectionStrings:add:StackInternship:connectionString", out var connectionString);
 
             var options = new DbContextOptionsBuilder<StackInternshipDbContext>()
                 .UseSqlServer(connectionString)
