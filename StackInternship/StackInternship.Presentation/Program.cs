@@ -1,4 +1,6 @@
-﻿using System;
+﻿using StackInternship.Presentation.Entities.Interfaces;
+using StackInternship.Presentation.Entities.Screens;
+using System;
 
 namespace StackInternship.Presentation
 {
@@ -6,7 +8,9 @@ namespace StackInternship.Presentation
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            IScreen screen = new HomeScreen { };
+            while (screen != null)
+                screen = screen.Render();
         }
     }
 }
