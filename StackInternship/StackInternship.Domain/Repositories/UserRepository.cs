@@ -59,5 +59,12 @@ namespace StackInternship.Domain.Repositories
 
         public bool Exists(string username) =>
             DbContext.Users.Where(u => u.Username == username).Any();
+
+        public bool CheckPassword(string username, string password) =>
+            DbContext.Users.Where(u => u.Username == username && u.Password == password).Any();
+
+        public int GetIdByUsername(string username) =>
+            DbContext.Users.Where(u => u.Username == username).FirstOrDefault().Id;
+
     }
 }

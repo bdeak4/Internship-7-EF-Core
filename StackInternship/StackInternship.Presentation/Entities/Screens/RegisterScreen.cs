@@ -19,7 +19,7 @@ namespace StackInternship.Presentation.Entities.Screens
             var username = Helpers.TextInput(input => !userRepository.Exists(input));
 
             Console.WriteLine("Unesite sifru");
-            var password = Helpers.PasswordInput();
+            var password = Helpers.PasswordInput(input => true);
 
             var (userId, status) = userRepository.Create(username, password);
 

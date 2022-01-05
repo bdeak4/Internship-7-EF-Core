@@ -28,7 +28,7 @@ namespace StackInternship.Presentation
         }
 
         public static string TextInput(Func<string, bool> validate) => GenericTextInput(validate, Console.ReadLine);
-        public static string PasswordInput() => GenericTextInput(input => true, PasswordRead);
+        public static string PasswordInput(Func<string, bool> validate) => GenericTextInput(validate, PasswordRead);
 
         private static string GenericTextInput(Func<string, bool> validate, Func<string> read)
         {
@@ -64,6 +64,8 @@ namespace StackInternship.Presentation
                     pass += keyInfo.KeyChar;
                 }
             } while (key != ConsoleKey.Enter);
+
+            Console.Write("\n");
 
             return pass;
         }
