@@ -9,7 +9,7 @@ namespace StackInternship.Domain.Factories
 {
     public class RepositoryFactory
     {
-        static public UserRepository GetUserRepository() =>
+        static public UserRepository CreateUserRepository() =>
             new UserRepository(DbContextFactory.GetStackInternshipDbContext());
     }
 }

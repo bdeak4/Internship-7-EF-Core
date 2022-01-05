@@ -9,7 +9,7 @@ namespace StackInternship.Presentation.Entities.Screens
     {
         public IScreen Render()
         {
-            var userRepository = RepositoryFactory.GetUserRepository();
+            var userRepository = RepositoryFactory.CreateUserRepository();
 
             Console.Clear();
             Console.WriteLine("Registracija");
