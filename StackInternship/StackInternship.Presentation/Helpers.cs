@@ -27,9 +27,18 @@ namespace StackInternship.Presentation
             }
         }
 
-        internal static void SmallNumberInput()
+        public static string TextInput(Func<string, bool> validate)
         {
-            throw new NotImplementedException();
+            while (true)
+            {
+                Console.Write("Unos: ");
+                var input = Console.ReadLine();
+
+                if (validate(input))
+                    return input;
+
+                Console.WriteLine("Unos nije validan. Pokusajte ponovo.");
+            }
         }
     }
 }

@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
 using StackInternship.Data.Entities.Models;
+using System;
 using System.IO;
 using System.Linq;
 
@@ -51,7 +52,7 @@ namespace StackInternship.Data.Entities
         {
             var configuration = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
-                .AddXmlFile("App.config")
+                .AddXmlFile("StackInternship.Presentation.dll.config")
                 .Build();
 
             configuration
