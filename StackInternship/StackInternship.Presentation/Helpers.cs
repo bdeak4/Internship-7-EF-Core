@@ -27,18 +27,47 @@ namespace StackInternship.Presentation
             }
         }
 
-        public static string TextInput(Func<string, bool> validate)
+        public static string TextInput(Func<string, bool> validate) => GenericTextInput(validate, Console.ReadLine);
+        public static string PasswordInput(Func<string, bool> validate) => GenericTextInput(validate, PasswordRead);
+
+        private static string GenericTextInput(Func<string, bool> validate, Func<string> read)
         {
             while (true)
             {
                 Console.Write("Unos: ");
-                var input = Console.ReadLine();
+                var input = read();
 
                 if (validate(input))
                     return input;
 
                 Console.WriteLine("Unos nije validan. Pokusajte ponovo.");
             }
+        }
+
+        private static string PasswordRead()
+        {
+            var pass = string.Empty;
+            ConsoleKey key;
+            do
+            {
+                var keyInfo = Console.ReadKey(intercept: true);
+                key = keyInfo.Key;
+
+                if (key == ConsoleKey.Backspace && pass.Length > 0)
+                {
+                    Console.Write("\b \b");
+                    pass = pass[0..^1];
+                }
+                else if (!char.IsControl(keyInfo.KeyChar))
+                {
+                    Console.Write("*");
+                    pass += keyInfo.KeyChar;
+                }
+            } while (key != ConsoleKey.Enter);
+
+            Console.Write("\n");
+
+            return pass;
         }
     }
 }
