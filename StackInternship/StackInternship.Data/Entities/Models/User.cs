@@ -8,6 +8,7 @@ namespace StackInternship.Data.Entities.Models
         public int Id { get; set; }
         public string Username { get; set; }
         public string Password { get; set; }
+        public byte[] HashedPassword { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime? DeactivatedUntil { get; set; }
 

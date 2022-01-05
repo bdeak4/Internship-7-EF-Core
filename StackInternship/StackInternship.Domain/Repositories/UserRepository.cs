@@ -4,6 +4,7 @@ using StackInternship.Domain.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -17,7 +18,7 @@ namespace StackInternship.Domain.Repositories
 
         public (int, ResponseResultType) Create(string username, string password)
         {
-            var user = new User { Username = username, Password = password };
+            var user = new User { Username = username, HashedPassword = HashPassword(password) };
 
             DbContext.Users.Add(user);
 
@@ -61,10 +62,19 @@ namespace StackInternship.Domain.Repositories
             DbContext.Users.Where(u => u.Username == username).Any();
 
         public bool CheckPassword(string username, string password) =>
-            DbContext.Users.Where(u => u.Username == username && u.Password == password).Any();
+            DbContext.Users.Where(u => u.Username == username &&
+                                       u.HashedPassword == HashPassword(password)
+            ).Any();
 
         public int GetIdByUsername(string username) =>
             DbContext.Users.Where(u => u.Username == username).FirstOrDefault().Id;
+
+        private byte[] HashPassword(string password)
+        {
+            var data = Encoding.UTF8.GetBytes("text");
+            var shaM = new SHA512Managed();
+            return shaM.ComputeHash(data);
+        }
 
     }
 }

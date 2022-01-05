@@ -50,10 +50,22 @@ namespace StackInternship.Data.Entities
     {
         public StackInternshipDbContext CreateDbContext(string[] args)
         {
-            var configuration = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddXmlFile("StackInternship.Presentation.dll.config")
-                .Build();
+            IConfigurationRoot configuration;
+
+            try
+            {
+                configuration = new ConfigurationBuilder()
+                    .SetBasePath(Directory.GetCurrentDirectory())
+                    .AddXmlFile("App.config")
+                    .Build();
+            }
+            catch
+            {
+                configuration = new ConfigurationBuilder()
+                    .SetBasePath(Directory.GetCurrentDirectory())
+                    .AddXmlFile("StackInternship.Presentation.dll.config")
+                    .Build();
+            };
 
             configuration
                 .Providers
