@@ -14,11 +14,11 @@ namespace StackInternship.Presentation.Entities.Screens
             Console.Clear();
             Console.WriteLine("Registracija");
 
-            Console.WriteLine("Unesite korisnicko ime za vas racun");
+            Console.WriteLine("Unesite korisnicko ime");
             var username = Helpers.TextInput(input => !userRepository.Exists(input));
 
-            Console.WriteLine("Unesite sifru za vas racun");
-            var password = Helpers.TextInput(input => true);
+            Console.WriteLine("Unesite sifru");
+            var password = Helpers.PasswordInput();
 
             return new HomeScreen { };
         }
