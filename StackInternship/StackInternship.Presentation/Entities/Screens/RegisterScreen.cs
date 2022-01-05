@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using StackInternship.Domain.Enums;
 using StackInternship.Domain.Factories;
 using StackInternship.Presentation.Entities.Interfaces;
 using System;
@@ -20,7 +21,12 @@ namespace StackInternship.Presentation.Entities.Screens
             Console.WriteLine("Unesite sifru");
             var password = Helpers.PasswordInput();
 
-            return new HomeScreen { };
+            var (userId, status) = userRepository.Create(username, password);
+
+            if (status == ResponseResultType.Success)
+                return new DashboardScreen { UserId = userId };
+
+            return new ErrorScreen { Status = status };
         }
     }
 }

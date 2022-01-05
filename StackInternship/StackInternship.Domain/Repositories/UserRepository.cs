@@ -15,11 +15,16 @@ namespace StackInternship.Domain.Repositories
         {
         }
 
-        public ResponseResultType Add(User user)
+        public (int, ResponseResultType) Create(string username, string password)
         {
+            var user = new User { Username = username, Password = password };
+
             DbContext.Users.Add(user);
 
-            return SaveChanges();
+            var status = SaveChanges();
+            var newId = DbContext.Users.Where(u => u.Username == username).First().Id;
+
+            return (newId, status);
         }
 
         public ResponseResultType Edit(User user, int userId)
