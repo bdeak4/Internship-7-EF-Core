@@ -8,7 +8,7 @@ namespace StackInternship.Presentation
 {
     public static class Helpers
     {
-        public static int? NumberInput(List<int> permittedValues)
+        public static int? NumberInput(int max)
         {
             while (true)
             {
@@ -20,7 +20,7 @@ namespace StackInternship.Presentation
 
                 var valid = int.TryParse(input, out int value);
 
-                if (valid && permittedValues.IndexOf(value) != -1)
+                if (valid && value >= 1 && value <= max)
                     return value;
                 
                 Console.WriteLine("Unos nije validan. Pokusajte ponovo.");

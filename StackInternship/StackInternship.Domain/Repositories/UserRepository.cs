@@ -62,8 +62,8 @@ namespace StackInternship.Domain.Repositories
             DbContext.Users.Where(u => u.Username == username).Any();
 
         public bool CheckPassword(string username, string password) =>
-            DbContext.Users.Where(u => u.Username == username &&
-                                       u.HashedPassword == HashPassword(password)
+            DbContext.Users.Where(
+                u => u.Username == username && u.HashedPassword == HashPassword(password)
             ).Any();
 
         public int GetIdByUsername(string username) =>
