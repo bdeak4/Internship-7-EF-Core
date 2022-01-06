@@ -1,4 +1,5 @@
 ﻿using StackInternship.Data.Entities.Models;
+using StackInternship.Domain.Factories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -73,10 +74,12 @@ namespace StackInternship.Presentation
 
         public static string PrintResources(ICollection<Resource> resources, int firstIndex, int userId)
         {
+            var userRepository = RepositoryFactory.CreateUserRepository();
+
             var rows = resources.Select((r, i) => 
                 $"{i + firstIndex} - ↑{r.Upvotes.Count} ↓{r.Downvotes.Count} " +
                 $"{{{r.Views.Count}}} {(r.User.IsOrganizer ? "org " : "")}" +
-                $"[{(r.User.Id == userId ? "you" : r.User.Username)}] ({r.CreatedAt})"
+                $"[{(r.User.Id == userId ? "you" : r.User.Username)}] ({r.CreatedAt}) {userRepository.CalculateRep(r.User.Id)}"
             );
             return string.Join("\n", rows);
         }

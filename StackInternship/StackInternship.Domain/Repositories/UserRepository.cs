@@ -7,6 +7,8 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+
 
 namespace StackInternship.Domain.Repositories
 {
@@ -75,5 +77,42 @@ namespace StackInternship.Domain.Repositories
             var shaM = new SHA512Managed();
             return shaM.ComputeHash(data);
         }
+
+        public int CalculateRep(int userId)
+        {
+            var rep = DbContext.Upvotes
+                .Include(u => u.Comment)
+                .Where(u => u.UserId == userId && u.CommentId != null)
+                .Select(u => u.Comment.ParentId == null ? 10 : 5)
+                .Sum();
+
+            rep += DbContext.Upvotes
+                .Include(u => u.Comment)
+                .Include(u => u.Comment.Upvotes)
+                .Include(u => u.Comment.Children)
+                .Where(u => u.CommentId != null && u.Comment.UserId == userId)
+                .Where(u => u.Comment.Upvotes.Any() || u.Comment.Children.Any())
+                .Count() * 15;
+
+            rep -= DbContext.Downvotes
+                .Include(d => d.Comment)
+                .Where(d => d.UserId == userId && d.CommentId != null)
+                .Count();
+
+            rep -= DbContext.Downvotes
+                .Include(d => d.Comment)
+                .Include(d => d.Comment.Downvotes)
+                .Include(d => d.Comment.Children)
+                .Where(d => d.CommentId != null && d.Comment.UserId == userId)
+                .Select(d => d.Comment.Downvotes.Count * (d.Comment.Children.Any() ? 2 : 3))
+                .ToList()
+                .Sum();
+
+            if (rep < 1)
+                return 1;
+
+            return rep;
+        }
+
     }
 }
