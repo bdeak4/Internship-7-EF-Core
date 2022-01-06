@@ -11,6 +11,7 @@ namespace StackInternship.Data.Entities.Models
         public byte[] HashedPassword { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime? DeactivatedUntil { get; set; }
+        public bool IsOrganizer { get; set; }
 
         public ICollection<Resource> Resources { get; set; }
         public ICollection<Comment> Comments { get; set; }
