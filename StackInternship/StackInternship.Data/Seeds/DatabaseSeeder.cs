@@ -45,6 +45,7 @@ namespace StackInternship.Data.Seeds
                     new Resource
                     {
                         Id = 1,
+                        Title = "post 1",
                         Content = "prvi post",
                         CreatedAt = DateTime.Today,
                         Category = ResourceCategory.Dev,
@@ -53,6 +54,7 @@ namespace StackInternship.Data.Seeds
                     new Resource
                     {
                         Id = 2,
+                        Title = "post 2",
                         Content = "drugi\n post",
                         CreatedAt = DateTime.Now,
                         Category = ResourceCategory.Dev,
@@ -61,6 +63,7 @@ namespace StackInternship.Data.Seeds
                     new Resource
                     {
                         Id = 3,
+                        Title = "dizajn radionica",
                         Content = "t\nr\ne\nc\ni\npost",
                         CreatedAt = DateTime.Now,
                         Category = ResourceCategory.Dizajn,
