@@ -11,5 +11,8 @@ namespace StackInternship.Domain.Factories
     {
         static public UserRepository CreateUserRepository() =>
             new UserRepository(DbContextFactory.GetStackInternshipDbContext());
+
+        static public ResourceRepository CreateResourceRepository() =>
+            new ResourceRepository(DbContextFactory.GetStackInternshipDbContext());
     }
 }

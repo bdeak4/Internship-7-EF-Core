@@ -1,4 +1,5 @@
 ﻿using StackInternship.Data.Entities.Enums;
+using StackInternship.Domain.Factories;
 using StackInternship.Presentation.Entities.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -15,27 +16,26 @@ namespace StackInternship.Presentation.Entities.Screens
 
         public IScreen Render()
         {
+            var resourceRepository = RepositoryFactory.CreateResourceRepository();
+
             Console.Clear();
+
+            var resources = resourceRepository.GetByCategory(ResourceCategory);
+
             Console.WriteLine($@"Resursi u kategoriji {ResourceCategory}
+{Helpers.PrintResources(resources, 1)}
+{resources.Count + 1} - Povratak na kategorije
 q - Quit");
 
-            switch (Helpers.NumberInput(max: 5))
-            {
-                case 1:
-                    return new HomeScreen { };
+            var input = Helpers.NumberInput(max: resources.Count + 1);
 
-                case 2:
-                    return new HomeScreen { };
+            if (input == null)
+                return null;
 
-                case 3:
-                    return new HomeScreen { };
+            if (input == (resources.Count + 1))
+                return new ResourcesScreen { UserId = UserId };
 
-                case 4:
-                    return new HomeScreen { };
-
-                case 5:
-                    return new HomeScreen { };
-            }
+            // resourcescreen
             return null;
         }
     }

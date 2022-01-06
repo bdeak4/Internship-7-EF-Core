@@ -1,4 +1,5 @@
-﻿using System;
+﻿using StackInternship.Data.Entities.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -69,5 +70,14 @@ namespace StackInternship.Presentation
 
             return pass;
         }
+
+        public static string PrintResources(ICollection<Resource> resources, int firstIndex)
+        {
+            var rows = resources.Select((r, i) => 
+                $"{i + firstIndex} - ↑{r.Upvotes.Count} ↓{r.Downvotes.Count} {{{r.Views.Count}}} [{r.User.Username}] ({r.CreatedAt})"
+            );
+            return string.Join("\n", rows);
+        }
+
     }
 }
