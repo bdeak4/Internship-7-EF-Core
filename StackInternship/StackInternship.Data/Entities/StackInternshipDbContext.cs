@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
 using StackInternship.Data.Entities.Models;
+using StackInternship.Data.Seeds;
 using System;
 using System.IO;
 using System.Linq;
@@ -41,6 +42,8 @@ namespace StackInternship.Data.Entities
                 .HasOne(c => c.User)
                 .WithMany(u => u.Views)
                 .OnDelete(DeleteBehavior.NoAction);
+
+            DatabaseSeeder.Execute(modelBuilder);
 
             base.OnModelCreating(modelBuilder);
         }

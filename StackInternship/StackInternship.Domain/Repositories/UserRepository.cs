@@ -71,10 +71,9 @@ namespace StackInternship.Domain.Repositories
 
         private byte[] HashPassword(string password)
         {
-            var data = Encoding.UTF8.GetBytes("text");
+            var data = Encoding.UTF8.GetBytes(password);
             var shaM = new SHA512Managed();
             return shaM.ComputeHash(data);
         }
-
     }
 }
