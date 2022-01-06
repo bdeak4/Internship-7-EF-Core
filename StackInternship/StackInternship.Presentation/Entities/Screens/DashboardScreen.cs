@@ -23,6 +23,9 @@ q - Quit");
 
             switch (Helpers.NumberInput(max: 6))
             {
+                case 1:
+                    return new ResourcesScreen { UserId = UserId };
+
                 case 6:
                     return new HomeScreen { };
             }
