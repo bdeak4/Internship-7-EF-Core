@@ -23,7 +23,7 @@ namespace StackInternship.Presentation.Entities.Screens
             var resources = resourceRepository.GetByCategory(ResourceCategory);
 
             Console.WriteLine($@"Resursi u kategoriji {ResourceCategory}
-{Helpers.PrintResources(resources, 1)}
+{Helpers.PrintResources(resources, 1, UserId)}
 {resources.Count + 1} - Povratak na kategorije
 q - Quit");
 

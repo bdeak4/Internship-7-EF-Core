@@ -71,10 +71,12 @@ namespace StackInternship.Presentation
             return pass;
         }
 
-        public static string PrintResources(ICollection<Resource> resources, int firstIndex)
+        public static string PrintResources(ICollection<Resource> resources, int firstIndex, int userId)
         {
             var rows = resources.Select((r, i) => 
-                $"{i + firstIndex} - ↑{r.Upvotes.Count} ↓{r.Downvotes.Count} {{{r.Views.Count}}} [{r.User.Username}] ({r.CreatedAt})"
+                $"{i + firstIndex} - ↑{r.Upvotes.Count} ↓{r.Downvotes.Count} " +
+                $"{{{r.Views.Count}}} {(r.User.IsOrganizer ? "org " : "")}" +
+                $"[{(r.User.Id == userId ? "you" : r.User.Username)}] ({r.CreatedAt})"
             );
             return string.Join("\n", rows);
         }
