@@ -20,7 +20,7 @@ namespace StackInternship.Presentation.Entities.Screens
 
             Console.Clear();
 
-            var resources = resourceRepository.GetByCategory(ResourceCategory);
+            var resources = resourceRepository.GetByCategory(ResourceCategory).ToList();
 
             Console.WriteLine($@"Resursi u kategoriji {ResourceCategory}
 {Helpers.PrintResources(resources, 1, UserId)}
@@ -35,8 +35,9 @@ q - Quit");
             if (input == (resources.Count + 1))
                 return new ResourcesScreen { UserId = UserId };
 
-            // resourcescreen
-            return null;
+            var resource = resources[input.GetValueOrDefault() - 1];
+
+            return new ResourceScreen { UserId = UserId, ResourceId = resource.Id };
         }
     }
 }

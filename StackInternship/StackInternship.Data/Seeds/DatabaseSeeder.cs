@@ -70,6 +70,45 @@ namespace StackInternship.Data.Seeds
                         UserId = 2,
                     }
                 });
+
+            builder.Entity<Comment>()
+                .HasData(new List<Comment>
+                {
+                    new Comment
+                    {
+                        Id = 1,
+                        Content = "prvi",
+                        CreatedAt = DateTime.Today,
+                        UserId = 1,
+                        ResourceId = 1,
+                    },
+                    new Comment
+                    {
+                        Id = 2,
+                        Content = "drugi",
+                        CreatedAt = DateTime.Now,
+                        UserId = 2,
+                        ResourceId = 1,
+                        ParentId = 1,
+                    },
+                    new Comment
+                    {
+                        Id = 3,
+                        Content = "treci",
+                        CreatedAt = DateTime.Now,
+                        UserId = 3,
+                        ResourceId = 1,
+                        ParentId = 2,
+                    },
+                    new Comment
+                    {
+                        Id = 4,
+                        Content = "super post!",
+                        CreatedAt = DateTime.Now,
+                        UserId = 3,
+                        ResourceId = 1,
+                    }
+                });
         }
 
         static private byte[] HashPassword(string password)

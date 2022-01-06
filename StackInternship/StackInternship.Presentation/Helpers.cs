@@ -77,12 +77,71 @@ namespace StackInternship.Presentation
             var userRepository = RepositoryFactory.CreateUserRepository();
 
             var rows = resources.Select((r, i) => 
-                $"{i + firstIndex} - ↑{r.Upvotes.Count} ↓{r.Downvotes.Count} " +
-                $"{{{r.Views.Count}}} {(r.User.IsOrganizer ? "org " : "")}" +
-                $"[{(r.User.Id == userId ? "you" : r.User.Username)}] ({r.CreatedAt}) {userRepository.CalculateRep(r.User.Id)}"
+                $"{i + firstIndex} - {PrintResourceMetadata(r, userId)} {r.Title}"
             );
+
             return string.Join("\n", rows);
         }
+
+        public static string PrintResourceMetadata(Resource re, int currentUserId)
+        {
+            var r = "\u001b[31m";
+            var g = "\u001b[32m";
+            var b = "\u001b[34m";
+            var y = "\u001b[33m";
+            var n = "\u001b[0m";
+            return
+                $"{y}[{re.Category}]{n} " +
+                $"{g}↑{re.Upvotes.Count}{n} " +
+                $"{r}↓{re.Downvotes.Count}{n} " +
+                $"{{{re.Views.Count}}} " +
+                $"{b}[{(re.User.Id == currentUserId ? "you" : re.User.Username)}]{n} " +
+                $"({re.CreatedAt})";
+
+        }
+
+        public static string PrintComments(
+            ICollection<Comment> comments,
+            int currentUserId,
+            out Dictionary<string, List<int>> permittedCommentValues,
+            int startIndex,
+            out int index)
+        {
+            permittedCommentValues = new Dictionary<string, List<int>> { };
+            index = startIndex;
+
+            var output = "";
+
+            foreach (var c in comments.Where(c => c.ParentId == null))
+                output += PrintComment(c, currentUserId, 0);
+
+            return output;
+        }
+
+        public static string PrintComment(Comment c, int currentUserId, int indentationLevel)
+        {
+            var indentation = string.Concat(Enumerable.Repeat("\t", indentationLevel));
+
+            return @$"{indentation}{c.Content}
+{indentation}{PrintCommentMetadata(c, currentUserId)}
+{indentation}// actions
+
+{string.Join("\n", c.Children.Select(c => PrintComment(c, currentUserId, indentationLevel + 1)))}";
+        }
+
+        public static string PrintCommentMetadata(Comment c, int currentUserId)
+        {
+            var r = "\u001b[31m";
+            var g = "\u001b[32m";
+            var b = "\u001b[34m";
+            var n = "\u001b[0m";
+            return
+                $"{g}↑{c.Upvotes.Count}{n} " +
+                $"{r}↓{c.Downvotes.Count}{n} " +
+                $"{b}[{(c.User.Id == currentUserId ? "you" : c.User.Username)}]{n} " +
+                $"({c.CreatedAt})";
+        }
+
 
     }
 }

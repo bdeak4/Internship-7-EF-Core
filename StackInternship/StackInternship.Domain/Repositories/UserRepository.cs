@@ -1,13 +1,11 @@
-﻿using StackInternship.Data.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using StackInternship.Data.Entities;
 using StackInternship.Data.Entities.Models;
 using StackInternship.Domain.Enums;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
 
 
 namespace StackInternship.Domain.Repositories
