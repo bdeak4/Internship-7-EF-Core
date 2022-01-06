@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using StackInternship.Data.Entities.Enums;
 using StackInternship.Data.Entities.Models;
 using System;
 using System.Collections.Generic;
@@ -37,6 +38,35 @@ namespace StackInternship.Data.Seeds
                         IsOrganizer = true
                     }
                 }) ;
+
+            builder.Entity<Resource>()
+                .HasData(new List<Resource>
+                {
+                    new Resource
+                    {
+                        Id = 1,
+                        Content = "prvi post",
+                        CreatedAt = DateTime.Today,
+                        Category = ResourceCategory.Dev,
+                        UserId = 1,
+                    },
+                    new Resource
+                    {
+                        Id = 2,
+                        Content = "drugi\n post",
+                        CreatedAt = DateTime.Now,
+                        Category = ResourceCategory.Dev,
+                        UserId = 2,
+                    },
+                    new Resource
+                    {
+                        Id = 3,
+                        Content = "t\nr\ne\nc\ni\npost",
+                        CreatedAt = DateTime.Now,
+                        Category = ResourceCategory.Dizajn,
+                        UserId = 2,
+                    }
+                });
         }
 
         static private byte[] HashPassword(string password)

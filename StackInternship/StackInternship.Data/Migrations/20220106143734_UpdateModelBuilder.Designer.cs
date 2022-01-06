@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using StackInternship.Data.Entities;
 
 namespace StackInternship.Data.Migrations
 {
     [DbContext(typeof(StackInternshipDbContext))]
-    partial class StackInternshipDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220106143734_UpdateModelBuilder")]
+    partial class UpdateModelBuilder
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -121,7 +123,7 @@ namespace StackInternship.Data.Migrations
                             Id = 2,
                             Category = 0,
                             Content = "drugi\n post",
-                            CreatedAt = new DateTime(2022, 1, 6, 15, 45, 59, 339, DateTimeKind.Local).AddTicks(7199),
+                            CreatedAt = new DateTime(2022, 1, 6, 15, 37, 32, 985, DateTimeKind.Local).AddTicks(2693),
                             UserId = 2
                         },
                         new
@@ -129,7 +131,7 @@ namespace StackInternship.Data.Migrations
                             Id = 3,
                             Category = 1,
                             Content = "t\nr\ne\nc\ni\npost",
-                            CreatedAt = new DateTime(2022, 1, 6, 15, 45, 59, 339, DateTimeKind.Local).AddTicks(7343),
+                            CreatedAt = new DateTime(2022, 1, 6, 15, 37, 32, 985, DateTimeKind.Local).AddTicks(2844),
                             UserId = 2
                         });
                 });
