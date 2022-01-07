@@ -21,13 +21,15 @@ namespace StackInternship.Data.Seeds
                     {
                         Id = 1,
                         Username = "ivan",
-                        HashedPassword = HashPassword("password")
+                        HashedPassword = HashPassword("password"),
+                        CreatedAt = DateTime.Today,
                     },
                     new User
                     {
                         Id = 2,
                         Username = "marko",
                         HashedPassword = HashPassword("password"),
+                        CreatedAt = DateTime.Today,
                         IsOrganizer = true
                     },
                     new User
@@ -35,6 +37,7 @@ namespace StackInternship.Data.Seeds
                         Id = 3,
                         Username = "ante",
                         HashedPassword = HashPassword("password"),
+                        CreatedAt = DateTime.Today,
                         IsOrganizer = true
                     }
                 }) ;

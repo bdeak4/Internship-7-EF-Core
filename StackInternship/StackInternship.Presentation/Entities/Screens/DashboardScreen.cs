@@ -26,11 +26,17 @@ q - Quit");
                 case 1:
                     return new ResourcesScreen { UserId = UserId };
 
+                case 2:
+                    return new UsersScreen { UserId = UserId };
+
                 case 3:
                     return new UnansweredResourcesScreen { UserId = UserId };
 
                 case 4:
                     return new PopularResourcesScreen { UserId = UserId };
+
+                case 5:
+                    return new UserProfileScreen { UserId = UserId, ProfileUserId = UserId };
 
                 case 6:
                     return new HomeScreen { };

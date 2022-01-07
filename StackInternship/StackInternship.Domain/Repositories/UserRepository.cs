@@ -2,6 +2,7 @@
 using StackInternship.Data.Entities;
 using StackInternship.Data.Entities.Models;
 using StackInternship.Domain.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
@@ -18,7 +19,7 @@ namespace StackInternship.Domain.Repositories
 
         public (int, ResponseResultType) Create(string username, string password)
         {
-            var user = new User { Username = username, HashedPassword = HashPassword(password) };
+            var user = new User { Username = username, HashedPassword = HashPassword(password), CreatedAt = DateTime.Now };
 
             DbContext.Users.Add(user);
 
@@ -28,7 +29,7 @@ namespace StackInternship.Domain.Repositories
             return (newId, status);
         }
 
-        public ResponseResultType Edit(User user, int userId)
+        public ResponseResultType Edit(int userId, string username)
         {
             var edittingUser = DbContext.Users.Find(userId);
             if (edittingUser is null)
@@ -36,9 +37,7 @@ namespace StackInternship.Domain.Repositories
                 return ResponseResultType.NotFound;
             }
 
-            //edittingUser.Oib = user.Oib;
-            //edittingUser.FirstName = user.FirstName;
-            //edittingUser.LastName = user.LastName;
+            edittingUser.Username = username;
 
             return SaveChanges();
         }
@@ -57,6 +56,36 @@ namespace StackInternship.Domain.Repositories
         }
 
         public ICollection<User> GetAll() => DbContext.Users.ToList();
+        
+        public User GetById(int userId) => 
+            DbContext.Users
+                .Include(r => r.Resources)
+                .Include(r => r.Comments)
+                .Include(r => r.Upvotes)
+                .Include(r => r.Downvotes)
+                .Include(r => r.Views)
+                .Where(u => u.Id == userId)
+                .FirstOrDefault();
+
+        public int GetReceivedUpvotesCount(int userId) =>
+            DbContext.Upvotes
+                .Include(u => u.Comment)
+                .Where(u => u.Comment.UserId == userId)
+                .Count() +
+            DbContext.Upvotes
+                .Include(u => u.Resource)
+                .Where(u => u.Resource.UserId == userId)
+                .Count();
+
+        public int GetReceivedDownvotesCount(int userId) =>
+            DbContext.Downvotes
+                .Include(d => d.Comment)
+                .Where(d => d.Comment.UserId == userId)
+                .Count() +
+            DbContext.Downvotes
+                .Include(d => d.Resource)
+                .Where(d => d.Resource.UserId == userId)
+                .Count();
 
         public bool Exists(string username) =>
             DbContext.Users.Where(u => u.Username == username).Any();
