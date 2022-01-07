@@ -15,7 +15,7 @@ Akcije:
 2 - Registracija
 q - Quit");
 
-            switch (Helpers.NumberInput(new List<int> { 1, 2 }))
+            switch (Helpers.NumberInput(max: 2))
             {
                 case 1:
                     return new LoginScreen { };

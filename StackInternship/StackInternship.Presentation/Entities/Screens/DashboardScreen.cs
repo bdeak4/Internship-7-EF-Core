@@ -11,10 +11,25 @@ namespace StackInternship.Presentation.Entities.Screens
         public IScreen Render()
         {
             Console.Clear();
-            Console.WriteLine("Dashboard");
-            Console.WriteLine(UserId);
-            Console.ReadKey();
-            return new HomeScreen { };
+            Console.WriteLine(@"Dashboard
+Akcije:
+1 - Objavljeni resursi
+2 - Korisnici
+3 - Neodgovoreno
+4 - Popularno
+5 - Moj profil
+6 - Odjavi se
+q - Quit");
+
+            switch (Helpers.NumberInput(max: 6))
+            {
+                case 1:
+                    return new ResourcesScreen { UserId = UserId };
+
+                case 6:
+                    return new HomeScreen { };
+            }
+            return null;
         }
     }
 }

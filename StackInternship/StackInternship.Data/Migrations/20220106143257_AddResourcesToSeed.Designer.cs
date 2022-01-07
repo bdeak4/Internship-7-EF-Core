@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using StackInternship.Data.Entities;
 
 namespace StackInternship.Data.Migrations
 {
     [DbContext(typeof(StackInternshipDbContext))]
-    partial class StackInternshipDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220106143257_AddResourcesToSeed")]
+    partial class AddResourcesToSeed
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -50,42 +52,6 @@ namespace StackInternship.Data.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Comments");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Content = "prvi",
-                            CreatedAt = new DateTime(2022, 1, 7, 0, 0, 0, 0, DateTimeKind.Local),
-                            ResourceId = 1,
-                            UserId = 1
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Content = "drugi",
-                            CreatedAt = new DateTime(2022, 1, 7, 0, 23, 4, 564, DateTimeKind.Local).AddTicks(7096),
-                            ParentId = 1,
-                            ResourceId = 1,
-                            UserId = 2
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Content = "treci",
-                            CreatedAt = new DateTime(2022, 1, 7, 0, 23, 4, 564, DateTimeKind.Local).AddTicks(7869),
-                            ParentId = 2,
-                            ResourceId = 1,
-                            UserId = 3
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Content = "super post!",
-                            CreatedAt = new DateTime(2022, 1, 7, 0, 23, 4, 564, DateTimeKind.Local).AddTicks(7923),
-                            ResourceId = 1,
-                            UserId = 3
-                        });
                 });
 
             modelBuilder.Entity("StackInternship.Data.Entities.Models.Downvote", b =>
@@ -134,9 +100,6 @@ namespace StackInternship.Data.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Title")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
@@ -152,8 +115,7 @@ namespace StackInternship.Data.Migrations
                             Id = 1,
                             Category = 0,
                             Content = "prvi post",
-                            CreatedAt = new DateTime(2022, 1, 7, 0, 0, 0, 0, DateTimeKind.Local),
-                            Title = "post 1",
+                            CreatedAt = new DateTime(2022, 1, 6, 0, 0, 0, 0, DateTimeKind.Local),
                             UserId = 1
                         },
                         new
@@ -161,8 +123,7 @@ namespace StackInternship.Data.Migrations
                             Id = 2,
                             Category = 0,
                             Content = "drugi\n post",
-                            CreatedAt = new DateTime(2022, 1, 7, 0, 23, 4, 563, DateTimeKind.Local).AddTicks(9199),
-                            Title = "post 2",
+                            CreatedAt = new DateTime(2022, 1, 6, 15, 32, 55, 724, DateTimeKind.Local).AddTicks(2398),
                             UserId = 2
                         },
                         new
@@ -170,8 +131,7 @@ namespace StackInternship.Data.Migrations
                             Id = 3,
                             Category = 1,
                             Content = "t\nr\ne\nc\ni\npost",
-                            CreatedAt = new DateTime(2022, 1, 7, 0, 23, 4, 563, DateTimeKind.Local).AddTicks(9432),
-                            Title = "dizajn radionica",
+                            CreatedAt = new DateTime(2022, 1, 6, 15, 32, 55, 724, DateTimeKind.Local).AddTicks(2521),
                             UserId = 2
                         });
                 });

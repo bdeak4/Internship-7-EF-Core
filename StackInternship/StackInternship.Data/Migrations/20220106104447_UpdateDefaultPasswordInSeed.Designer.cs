@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using StackInternship.Data.Entities;
 
 namespace StackInternship.Data.Migrations
 {
     [DbContext(typeof(StackInternshipDbContext))]
-    partial class StackInternshipDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220106104447_UpdateDefaultPasswordInSeed")]
+    partial class UpdateDefaultPasswordInSeed
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -50,42 +52,6 @@ namespace StackInternship.Data.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Comments");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Content = "prvi",
-                            CreatedAt = new DateTime(2022, 1, 7, 0, 0, 0, 0, DateTimeKind.Local),
-                            ResourceId = 1,
-                            UserId = 1
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Content = "drugi",
-                            CreatedAt = new DateTime(2022, 1, 7, 0, 23, 4, 564, DateTimeKind.Local).AddTicks(7096),
-                            ParentId = 1,
-                            ResourceId = 1,
-                            UserId = 2
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Content = "treci",
-                            CreatedAt = new DateTime(2022, 1, 7, 0, 23, 4, 564, DateTimeKind.Local).AddTicks(7869),
-                            ParentId = 2,
-                            ResourceId = 1,
-                            UserId = 3
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Content = "super post!",
-                            CreatedAt = new DateTime(2022, 1, 7, 0, 23, 4, 564, DateTimeKind.Local).AddTicks(7923),
-                            ResourceId = 1,
-                            UserId = 3
-                        });
                 });
 
             modelBuilder.Entity("StackInternship.Data.Entities.Models.Downvote", b =>
@@ -134,9 +100,6 @@ namespace StackInternship.Data.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Title")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
@@ -145,35 +108,6 @@ namespace StackInternship.Data.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Resources");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Category = 0,
-                            Content = "prvi post",
-                            CreatedAt = new DateTime(2022, 1, 7, 0, 0, 0, 0, DateTimeKind.Local),
-                            Title = "post 1",
-                            UserId = 1
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Category = 0,
-                            Content = "drugi\n post",
-                            CreatedAt = new DateTime(2022, 1, 7, 0, 23, 4, 563, DateTimeKind.Local).AddTicks(9199),
-                            Title = "post 2",
-                            UserId = 2
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Category = 1,
-                            Content = "t\nr\ne\nc\ni\npost",
-                            CreatedAt = new DateTime(2022, 1, 7, 0, 23, 4, 563, DateTimeKind.Local).AddTicks(9432),
-                            Title = "dizajn radionica",
-                            UserId = 2
-                        });
                 });
 
             modelBuilder.Entity("StackInternship.Data.Entities.Models.ResourceView", b =>
@@ -265,7 +199,7 @@ namespace StackInternship.Data.Migrations
                         {
                             Id = 1,
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            HashedPassword = new byte[] { 177, 9, 243, 187, 188, 36, 78, 184, 36, 65, 145, 126, 208, 109, 97, 139, 144, 8, 221, 9, 179, 190, 253, 27, 94, 7, 57, 76, 112, 106, 139, 185, 128, 177, 215, 120, 94, 89, 118, 236, 4, 155, 70, 223, 95, 19, 38, 175, 90, 46, 166, 209, 3, 253, 7, 201, 83, 133, 255, 171, 12, 172, 188, 134 },
+                            HashedPassword = new byte[] { 48, 120, 69, 65, 70, 50, 67, 49, 50, 55, 52, 50, 67, 66, 56, 67, 49, 54, 49, 66, 67, 66, 68, 56, 52, 66, 48, 51, 50, 66, 57, 66, 66, 57, 56, 57, 57, 57, 65, 50, 51, 50, 56, 50, 53, 52, 50, 54, 55, 50, 67, 65, 48, 49, 67, 67, 54, 69, 68, 68, 50, 54, 56, 70, 55, 68, 67, 69, 57, 57, 56, 55, 65, 68, 54, 66, 50, 66, 67, 55, 57, 51, 48, 53, 54, 51, 52, 70, 56, 57, 68, 57, 48, 66, 57, 48, 49, 48, 50, 66, 67, 68, 53, 57, 65, 53, 55, 69, 55, 49, 51, 53, 66, 56, 69, 51, 67, 69, 66, 57, 51, 67, 48, 53, 57, 55, 49, 49, 55, 66 },
                             IsOrganizer = false,
                             Username = "ivan"
                         },
@@ -273,7 +207,7 @@ namespace StackInternship.Data.Migrations
                         {
                             Id = 2,
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            HashedPassword = new byte[] { 177, 9, 243, 187, 188, 36, 78, 184, 36, 65, 145, 126, 208, 109, 97, 139, 144, 8, 221, 9, 179, 190, 253, 27, 94, 7, 57, 76, 112, 106, 139, 185, 128, 177, 215, 120, 94, 89, 118, 236, 4, 155, 70, 223, 95, 19, 38, 175, 90, 46, 166, 209, 3, 253, 7, 201, 83, 133, 255, 171, 12, 172, 188, 134 },
+                            HashedPassword = new byte[] { 48, 120, 69, 65, 70, 50, 67, 49, 50, 55, 52, 50, 67, 66, 56, 67, 49, 54, 49, 66, 67, 66, 68, 56, 52, 66, 48, 51, 50, 66, 57, 66, 66, 57, 56, 57, 57, 57, 65, 50, 51, 50, 56, 50, 53, 52, 50, 54, 55, 50, 67, 65, 48, 49, 67, 67, 54, 69, 68, 68, 50, 54, 56, 70, 55, 68, 67, 69, 57, 57, 56, 55, 65, 68, 54, 66, 50, 66, 67, 55, 57, 51, 48, 53, 54, 51, 52, 70, 56, 57, 68, 57, 48, 66, 57, 48, 49, 48, 50, 66, 67, 68, 53, 57, 65, 53, 55, 69, 55, 49, 51, 53, 66, 56, 69, 51, 67, 69, 66, 57, 51, 67, 48, 53, 57, 55, 49, 49, 55, 66 },
                             IsOrganizer = true,
                             Username = "marko"
                         },
@@ -281,7 +215,7 @@ namespace StackInternship.Data.Migrations
                         {
                             Id = 3,
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            HashedPassword = new byte[] { 177, 9, 243, 187, 188, 36, 78, 184, 36, 65, 145, 126, 208, 109, 97, 139, 144, 8, 221, 9, 179, 190, 253, 27, 94, 7, 57, 76, 112, 106, 139, 185, 128, 177, 215, 120, 94, 89, 118, 236, 4, 155, 70, 223, 95, 19, 38, 175, 90, 46, 166, 209, 3, 253, 7, 201, 83, 133, 255, 171, 12, 172, 188, 134 },
+                            HashedPassword = new byte[] { 48, 120, 69, 65, 70, 50, 67, 49, 50, 55, 52, 50, 67, 66, 56, 67, 49, 54, 49, 66, 67, 66, 68, 56, 52, 66, 48, 51, 50, 66, 57, 66, 66, 57, 56, 57, 57, 57, 65, 50, 51, 50, 56, 50, 53, 52, 50, 54, 55, 50, 67, 65, 48, 49, 67, 67, 54, 69, 68, 68, 50, 54, 56, 70, 55, 68, 67, 69, 57, 57, 56, 55, 65, 68, 54, 66, 50, 66, 67, 55, 57, 51, 48, 53, 54, 51, 52, 70, 56, 57, 68, 57, 48, 66, 57, 48, 49, 48, 50, 66, 67, 68, 53, 57, 65, 53, 55, 69, 55, 49, 51, 53, 66, 56, 69, 51, 67, 69, 66, 57, 51, 67, 48, 53, 57, 55, 49, 49, 55, 66 },
                             IsOrganizer = true,
                             Username = "ante"
                         });

@@ -13,6 +13,10 @@ namespace StackInternship.Presentation.Entities.Screens
         {
             Console.Clear();
             Console.WriteLine("Ups! Dogodila se pogreska");
+            
+            if (Status != null)
+                Console.WriteLine($"Error status {Status}");
+
             Console.ReadKey();
             return new HomeScreen { };
         }

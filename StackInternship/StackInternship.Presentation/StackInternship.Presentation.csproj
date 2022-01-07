@@ -5,6 +5,10 @@
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove="Helpers.cs~RFfd7479c.TMP" />
+  </ItemGroup>
+
 
   <ItemGroup>
   	<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.13">
