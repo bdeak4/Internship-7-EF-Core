@@ -11,8 +11,6 @@ namespace StackInternship.Domain.Enums
         CreateComment,
         UpvoteResource,
         DownvoteResource,
-        EditResource,
-        DeleteResource,
         CreateSubComment,
         UpvoteComment,
         DownvoteComment,

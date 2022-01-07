@@ -15,6 +15,7 @@ namespace StackInternship.Presentation.Entities.Screens
         public IScreen Render()
         {
             var resourceRepository = RepositoryFactory.CreateResourceRepository();
+            var commentRepository = RepositoryFactory.CreateCommentRepository();
 
             Console.Clear();
 
@@ -50,18 +51,40 @@ Akcije:
 q - Quit");
 
             var (input, id, action) = Helpers.NumberInputWithPermittedValues(index, permittedValues);
-            
+
             if (input == null)
                 return null;
             
             if (input == index)
                 return new ResourcesByCategoryScreen { UserId = UserId, ResourceCategory = resource.Category };
 
-            Console.WriteLine(id);
-            Console.WriteLine(action);
-            Console.ReadKey();
+            switch(action)
+            {
+                //case UserAction.CreateComment:
 
-            // handle actions
+                //case UserAction.CreateSubComment:
+
+                case UserAction.UpvoteResource:
+                    resourceRepository.Upvote(ResourceId, UserId);
+                    return new ResourceScreen { UserId = UserId, ResourceId = ResourceId };
+
+                case UserAction.DownvoteResource:
+                    resourceRepository.Downvote(ResourceId, UserId);
+                    return new ResourceScreen { UserId = UserId, ResourceId = ResourceId };
+
+                case UserAction.UpvoteComment:
+                    commentRepository.Upvote(id, UserId);
+                    return new ResourceScreen { UserId = UserId, ResourceId = ResourceId };
+
+                case UserAction.DownvoteComment:
+                    commentRepository.Downvote(id, UserId);
+                    return new ResourceScreen { UserId = UserId, ResourceId = ResourceId };
+
+                //case UserAction.EditComment:
+
+                //case UserAction.DeleteComment:
+            }
+
             return new ResourcesByCategoryScreen { UserId = UserId, ResourceCategory = resource.Category };
         }
     }

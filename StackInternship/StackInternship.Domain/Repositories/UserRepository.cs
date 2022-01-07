@@ -117,13 +117,15 @@ namespace StackInternship.Domain.Repositories
 
         public bool IsTrusted(int userId) => CalculateRep(userId) >= 1000 && !IsOrganizator(userId);
 
-        public bool CanUpvoteResource(int userId, int resourceId) => !OwnsResource(userId, resourceId);
+        public bool CanUpvoteResource(int userId, int resourceId) =>
+            !OwnsResource(userId, resourceId) &&
+            !DbContext.Upvotes.Where(u => u.UserId == userId && u.ResourceId == resourceId).Any() &&
+            !DbContext.Downvotes.Where(d => d.UserId == userId && d.ResourceId == resourceId).Any();
 
-        public bool CanDownvoteResource(int userId, int resourceId) => !OwnsResource(userId, resourceId);
-
-        public bool CanEditResource(int userId, int resourceId) => OwnsResource(userId, resourceId);
-
-        public bool CanDeleteResource(int userId, int resourceId) => OwnsResource(userId, resourceId);
+        public bool CanDownvoteResource(int userId, int resourceId) =>
+            !OwnsResource(userId, resourceId) &&
+            !DbContext.Upvotes.Where(u => u.UserId == userId && u.ResourceId == resourceId).Any() &&
+            !DbContext.Downvotes.Where(d => d.UserId == userId && d.ResourceId == resourceId).Any();
 
         private bool OwnsResource(int userId, int resourceId) =>
             DbContext.Resources.Where(r => r.Id == resourceId && r.UserId == userId).Any();
@@ -138,13 +140,18 @@ namespace StackInternship.Domain.Repositories
             !OwnsComment(userId, commentId) && (
                 IsOrganizator(userId) ||
                 CalculateRep(userId) >= 5
-            );
+            ) &&
+            !DbContext.Upvotes.Where(u => u.UserId == userId && u.CommentId == commentId).Any() &&
+            !DbContext.Downvotes.Where(d => d.UserId == userId && d.CommentId == commentId).Any();
+
 
         public bool CanDownvoteComment(int userId, int commentId) =>
             !OwnsComment(userId, commentId) && (
                 IsOrganizator(userId) ||
                 CalculateRep(userId) >= (DbContext.Comments.Where(c => c.Id == commentId && c.ParentId == null).Any() ? 20 : 15)
-            );
+            ) &&
+            !DbContext.Upvotes.Where(u => u.UserId == userId && u.CommentId == commentId).Any() &&
+            !DbContext.Downvotes.Where(d => d.UserId == userId && d.CommentId == commentId).Any();
 
         public bool CanEditComment(int userId, int commentId) => 
             IsOrganizator(userId) ||

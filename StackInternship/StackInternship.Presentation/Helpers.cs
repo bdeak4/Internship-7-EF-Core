@@ -84,7 +84,7 @@ namespace StackInternship.Presentation
                 if (pv.Item1 == num)
                     return pv;
            
-            return (null, 0, UserAction.NoAction);
+            return (num, 0, UserAction.NoAction);
         }
 
         public static string PrintResources(ICollection<Resource> resources, int firstIndex, int userId)
@@ -145,20 +145,6 @@ namespace StackInternship.Presentation
                 var i = ++index;
                 permittedValues.Add((i, r.Id, UserAction.DownvoteResource));
                 output += $"{i} - Downvote post\n";
-            }
-
-            if (userRepository.CanEditResource(currentUserId, r.Id))
-            {
-                var i = ++index;
-                permittedValues.Add((i, r.Id, UserAction.EditResource));
-                output += $"{i} - Uredi post\n";
-            }
-
-            if (userRepository.CanDeleteResource(currentUserId, r.Id))
-            {
-                var i = ++index;
-                permittedValues.Add((i, r.Id, UserAction.DeleteResource));
-                output += $"{i} - Obrisi post\n";
             }
 
             return output;
