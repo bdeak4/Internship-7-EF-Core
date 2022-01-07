@@ -1,4 +1,5 @@
-﻿using StackInternship.Presentation.Entities.Interfaces;
+﻿using StackInternship.Domain.Factories;
+using StackInternship.Presentation.Entities.Interfaces;
 using System;
 using System.Collections.Generic;
 
@@ -10,18 +11,23 @@ namespace StackInternship.Presentation.Entities.Screens
 
         public IScreen Render()
         {
+            var userRepository = RepositoryFactory.CreateUserRepository();
+
             Console.Clear();
-            Console.WriteLine(@"Dashboard
+
+            var index = 0;
+
+            Console.WriteLine($@"Dashboard
 Akcije:
-1 - Objavljeni resursi
-2 - Korisnici
-3 - Neodgovoreno
-4 - Popularno
-5 - Moj profil
-6 - Odjavi se
+{++index} - Objavljeni resursi
+{++index} - Korisnici
+{++index} - Neodgovoreno
+{++index} - Popularno
+{++index} - Moj profil
+{++index} - Odjavi se {(userRepository.IsOrganizator(UserId) ? $"\n{++index} - Deaktiviraj racun interna\n{++index} - Deaktivirani pripravnici" : "")}
 q - Quit");
 
-            switch (Helpers.NumberInput(max: 6))
+            switch (Helpers.NumberInput(max: index))
             {
                 case 1:
                     return new ResourcesScreen { UserId = UserId };
@@ -40,6 +46,12 @@ q - Quit");
 
                 case 6:
                     return new HomeScreen { };
+
+                case 7:
+                    return new UserDeactivationScreen { UserId = UserId };
+
+                case 8:
+                    return new UserDeactivatedScreen { UserId = UserId };
             }
             return null;
         }
