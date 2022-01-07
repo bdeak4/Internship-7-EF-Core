@@ -1,4 +1,5 @@
 ﻿using StackInternship.Data.Entities.Models;
+using StackInternship.Domain.Enums;
 using StackInternship.Domain.Factories;
 using System;
 using System.Collections.Generic;
@@ -72,6 +73,20 @@ namespace StackInternship.Presentation
             return pass;
         }
 
+        public static (int?, int, UserAction) NumberInputWithPermittedValues(int max, List<(int, int, UserAction)> permittedValues)
+        {
+            var num = NumberInput(max);
+
+            if (num == null)
+                return (null, 0, UserAction.NoAction);
+
+            foreach (var pv in permittedValues)
+                if (pv.Item1 == num)
+                    return pv;
+           
+            return (null, 0, UserAction.NoAction);
+        }
+
         public static string PrintResources(ICollection<Resource> resources, int firstIndex, int userId)
         {
             var userRepository = RepositoryFactory.CreateUserRepository();
@@ -102,12 +117,11 @@ namespace StackInternship.Presentation
         public static string PrintResourceActions(
             Resource r,
             int currentUserId,
-            out Dictionary<string, List<int>> permittedResourceValues, 
+            List<(int, int, UserAction)> permittedValues, 
             int startIndex,
             out int index)
         {
             index = startIndex;
-            permittedResourceValues = new Dictionary<string, List<int>> { };
             var userRepository = RepositoryFactory.CreateUserRepository();
 
             var output = "";
@@ -115,35 +129,35 @@ namespace StackInternship.Presentation
             if (userRepository.CanCreateComment(currentUserId))
             {
                 var i = ++index;
-                permittedResourceValues["create-comment"] = new List<int> { i };
+                permittedValues.Add((i, r.Id, UserAction.CreateComment));
                 output += $"{i} - Komentiraj\n";
             }
 
             if (userRepository.CanUpvoteResource(currentUserId, r.Id))
             {
                 var i = ++index;
-                permittedResourceValues["upvote-resource"] = new List<int> { i };
+                permittedValues.Add((i, r.Id, UserAction.UpvoteResource));
                 output += $"{i} - Upvote post\n";
             }
 
             if (userRepository.CanDownvoteResource(currentUserId, r.Id))
             {
                 var i = ++index;
-                permittedResourceValues["downvote-resource"] = new List<int> { i };
+                permittedValues.Add((i, r.Id, UserAction.DownvoteResource));
                 output += $"{i} - Downvote post\n";
             }
 
             if (userRepository.CanEditResource(currentUserId, r.Id))
             {
                 var i = ++index;
-                permittedResourceValues["edit-resource"] = new List<int> { i };
+                permittedValues.Add((i, r.Id, UserAction.EditResource));
                 output += $"{i} - Uredi post\n";
             }
 
             if (userRepository.CanDeleteResource(currentUserId, r.Id))
             {
                 var i = ++index;
-                permittedResourceValues["delete-resource"] = new List<int> { i };
+                permittedValues.Add((i, r.Id, UserAction.DeleteResource));
                 output += $"{i} - Obrisi post\n";
             }
 
@@ -153,11 +167,10 @@ namespace StackInternship.Presentation
         public static string PrintComments(
             ICollection<Comment> comments,
             int currentUserId,
-            out Dictionary<string, List<int>> permittedCommentValues,
+            List<(int, int, UserAction)> permittedValues,
             int startIndex,
             out int index)
         {
-            permittedCommentValues = new Dictionary<string, List<int>> { };
             index = startIndex;
 
             var output = "";
@@ -166,8 +179,7 @@ namespace StackInternship.Presentation
                 output += PrintComment(
                     c,
                     currentUserId, 
-                    permittedCommentValues, 
-                    out permittedCommentValues, 
+                    permittedValues, 
                     index, 
                     out index, 
                     0);
@@ -178,13 +190,11 @@ namespace StackInternship.Presentation
         public static string PrintComment(
             Comment c,
             int currentUserId,
-            Dictionary<string, List<int>> startPermittedCommentValues,
-            out Dictionary<string, List<int>> permittedCommentValues,
+            List<(int, int, UserAction)> permittedValues,
             int startIndex,
             out int index,
             int indentationLevel)
         {
-            permittedCommentValues = startPermittedCommentValues;
             index = startIndex;
             var indentation = string.Concat(Enumerable.Repeat("\t", indentationLevel));
 
@@ -193,8 +203,7 @@ namespace StackInternship.Presentation
 {PrintCommentActions(
     c,
     currentUserId,
-    permittedCommentValues,
-    out permittedCommentValues,
+    permittedValues,
     index,
     out index,
     indentation)}
@@ -204,8 +213,7 @@ namespace StackInternship.Presentation
                 output += PrintComment(
                     child,
                     currentUserId,
-                    permittedCommentValues,
-                    out permittedCommentValues,
+                    permittedValues,
                     index,
                     out index,
                     indentationLevel + 1) + "\n";
@@ -229,14 +237,12 @@ namespace StackInternship.Presentation
         public static string PrintCommentActions(
             Comment c,
             int currentUserId,
-            Dictionary<string, List<int>> startPermittedCommentValues,
-            out Dictionary<string, List<int>> permittedCommentValues,
+            List<(int, int, UserAction)> permittedValues,
             int startIndex,
             out int index,
             string indentation)
         {
             index = startIndex;
-            permittedCommentValues = startPermittedCommentValues;
             var userRepository = RepositoryFactory.CreateUserRepository();
 
             var output = "";
@@ -244,50 +250,35 @@ namespace StackInternship.Presentation
             if (userRepository.CanCreateSubComment(currentUserId))
             {
                 var i = ++index;
-                if (permittedCommentValues.ContainsKey("create-subcomment"))
-                    permittedCommentValues["create-subcomment"].Append(i);
-                else
-                    permittedCommentValues["create-subcomment"] = new List<int> { i };
+                permittedValues.Add((i, c.Id, UserAction.CreateSubComment));
                 output += $"{indentation}{i} - Odgovori na komentar\n";
             }
 
             if (userRepository.CanUpvoteComment(currentUserId, c.Id))
             {
                 var i = ++index;
-                if (permittedCommentValues.ContainsKey("upvote-comment"))
-                    permittedCommentValues["upvote-comment"].Append(i);
-                else
-                    permittedCommentValues["upvote-comment"] = new List<int> { i };
+                permittedValues.Add((i, c.Id, UserAction.UpvoteComment));
                 output += $"{indentation}{i} - Upvote komentar\n";
             }
 
             if (userRepository.CanDownvoteComment(currentUserId, c.Id))
             {
                 var i = ++index;
-                if (permittedCommentValues.ContainsKey("downvote-comment"))
-                    permittedCommentValues["downvote-comment"].Append(i);
-                else
-                    permittedCommentValues["downvote-comment"] = new List<int> { i };
+                permittedValues.Add((i, c.Id, UserAction.DownvoteComment));
                 output += $"{indentation}{i} - Downvote komentar\n";
             }
 
             if (userRepository.CanEditComment(currentUserId, c.Id))
             {
                 var i = ++index;
-                if (permittedCommentValues.ContainsKey("edit-comment"))
-                    permittedCommentValues["edit-comment"].Append(i);
-                else
-                    permittedCommentValues["edit-comment"] = new List<int> { i };
+                permittedValues.Add((i, c.Id, UserAction.EditComment));
                 output += $"{indentation}{i} - Uredi komentar\n";
             }
 
             if (userRepository.CanDeleteComment(currentUserId))
             {
                 var i = ++index;
-                if (permittedCommentValues.ContainsKey("delete-comment"))
-                    permittedCommentValues["delete-comment"].Append(i);
-                else
-                    permittedCommentValues["delete-comment"] = new List<int> { i };
+                permittedValues.Add((i, c.Id, UserAction.DeleteComment));
                 output += $"{indentation}{i} - Obrisi comment\n";
             }
 

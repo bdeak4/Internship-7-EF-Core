@@ -1,4 +1,5 @@
-﻿using StackInternship.Domain.Factories;
+﻿using StackInternship.Domain.Enums;
+using StackInternship.Domain.Factories;
 using StackInternship.Presentation.Entities.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -22,6 +23,7 @@ namespace StackInternship.Presentation.Entities.Screens
             resourceRepository.View(ResourceId, UserId);
 
             var index = 0;
+            var permittedValues = new List<(int, int, UserAction)> { };
 
             Console.WriteLine($@"{resource.Title}
 {string.Concat(Enumerable.Repeat("-", resource.Title.Length))}
@@ -32,7 +34,7 @@ namespace StackInternship.Presentation.Entities.Screens
 {Helpers.PrintResourceActions(
     resource,
     UserId,
-    out Dictionary<string, List<int>> permittedResourceValues,
+    permittedValues,
     index,
     out index)}
 --
@@ -40,25 +42,27 @@ namespace StackInternship.Presentation.Entities.Screens
 {Helpers.PrintComments(
     resource.Comments,
     UserId,
-    out Dictionary<string, List<int>> permittedCommentValues,
+    permittedValues,
     index,
     out index)}
 Akcije:
 {++index} - Povratak na listu postova
 q - Quit");
-            Console.ReadKey();
-            return new ResourcesByCategoryScreen { UserId = UserId, ResourceCategory = resource.Category };
 
-            //var (input, action) = Helpers.NumberInputWithPermittedValues(permittedCommentValues);
-            //
-            //if (input == null)
-            //    return null;
-            //
-            //if (input == index)
-            //    return new ResourcesByCategoryScreen { UserId = UserId, ResourceCategory = resource.Category };
-            //
+            var (input, id, action) = Helpers.NumberInputWithPermittedValues(index, permittedValues);
+            
+            if (input == null)
+                return null;
+            
+            if (input == index)
+                return new ResourcesByCategoryScreen { UserId = UserId, ResourceCategory = resource.Category };
+
+            Console.WriteLine(id);
+            Console.WriteLine(action);
+            Console.ReadKey();
+
             // handle actions
-            //return new HomeScreen { };
+            return new ResourcesByCategoryScreen { UserId = UserId, ResourceCategory = resource.Category };
         }
     }
 }
