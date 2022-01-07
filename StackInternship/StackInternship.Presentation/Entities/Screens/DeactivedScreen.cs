@@ -1,7 +1,6 @@
 ﻿using StackInternship.Domain.Factories;
 using StackInternship.Presentation.Entities.Interfaces;
 using System;
-using System.Collections.Generic;
 
 namespace StackInternship.Presentation.Entities.Screens
 {
