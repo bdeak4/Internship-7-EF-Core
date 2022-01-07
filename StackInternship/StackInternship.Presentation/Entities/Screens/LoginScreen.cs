@@ -20,7 +20,12 @@ namespace StackInternship.Presentation.Entities.Screens
             Console.WriteLine("Unesite sifru");
             var password = Helpers.PasswordInput(input => userRepository.CheckPassword(username, input));
 
-            return new DashboardScreen { UserId = userRepository.GetIdByUsername(username) };
+            var userId = userRepository.GetIdByUsername(username);
+
+            if (userRepository.CheckDeactivation(userId))
+                return new DeactivatedScreen { UserId = userId };
+
+            return new DashboardScreen { UserId = userId };
         }
     }
 }

@@ -2,6 +2,7 @@
 using StackInternship.Data.Entities;
 using StackInternship.Data.Entities.Enums;
 using StackInternship.Data.Entities.Models;
+using StackInternship.Domain.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,28 @@ namespace StackInternship.Domain.Repositories
     {
         public ResourceRepository(StackInternshipDbContext dbContext) : base(dbContext)
         {
+        }
+
+        public (int, ResponseResultType) Create(
+            string title,
+            string content,
+            ResourceCategory category,
+            int userId)
+        {
+            var resource = new Resource {
+                Title = title,
+                Content = content,
+                Category = category,
+                UserId = userId,
+                CreatedAt = DateTime.Now
+            };
+
+            DbContext.Resources.Add(resource);
+
+            var status = SaveChanges();
+            var newId = DbContext.Resources.Where(u => u.Title == title && u.Content == content).First().Id;
+
+            return (newId, status);
         }
 
         public Resource GetById(int resourceId) =>

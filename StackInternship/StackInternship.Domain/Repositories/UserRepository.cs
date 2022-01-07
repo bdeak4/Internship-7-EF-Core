@@ -42,18 +42,34 @@ namespace StackInternship.Domain.Repositories
             return SaveChanges();
         }
 
-        public ResponseResultType Delete(int userId)
+        public ResponseResultType Deactivate(int userId, int days)
         {
-            var deletingUser = DbContext.Users.Find(userId);
-            if (deletingUser is null)
+            var deactivatingUser = DbContext.Users.Find(userId);
+            if (deactivatingUser is null)
             {
                 return ResponseResultType.NotFound;
             }
 
-            DbContext.Users.Remove(deletingUser);
+            deactivatingUser.DeactivatedUntil = DateTime.Now.AddDays(days);
 
             return SaveChanges();
         }
+
+        public ResponseResultType UnDeactivate(int userId)
+        {
+            var deactivatingUser = DbContext.Users.Find(userId);
+            if (deactivatingUser is null)
+            {
+                return ResponseResultType.NotFound;
+            }
+
+            deactivatingUser.DeactivatedUntil = null;
+
+            return SaveChanges();
+        }
+
+        public bool CheckDeactivation(int userId) =>
+            DbContext.Users.Where(u => u.Id == userId && u.DeactivatedUntil > DateTime.Now).Any();
 
         public ICollection<User> GetAll() => DbContext.Users.ToList();
         
