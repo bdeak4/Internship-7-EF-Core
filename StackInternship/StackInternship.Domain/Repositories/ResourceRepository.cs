@@ -55,6 +55,7 @@ namespace StackInternship.Domain.Repositories
                 .Include(r => r.Downvotes)
                 .Include(r => r.Views)
                 .Include(r => r.Comments)
+                .Where(r => r.CreatedAt >= DateTime.Today)
                 .ToList()
                 .OrderByDescending(r => r.Comments.Count)
                 .Take(5)
