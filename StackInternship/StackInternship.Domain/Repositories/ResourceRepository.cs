@@ -2,6 +2,7 @@
 using StackInternship.Data.Entities;
 using StackInternship.Data.Entities.Enums;
 using StackInternship.Data.Entities.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -35,5 +36,14 @@ namespace StackInternship.Domain.Repositories
                 .Where(r => r.Category == category)
                 .OrderByDescending(r => r.CreatedAt)
                 .ToList();
+
+        public void View(int resourceId, int userId)
+        {
+            var view = new ResourceView { ResourceId = resourceId, UserId = userId, CreatedAt = DateTime.Now };
+
+            DbContext.ResourceViews.Add(view);
+
+            SaveChanges();
+        }
     }
 }

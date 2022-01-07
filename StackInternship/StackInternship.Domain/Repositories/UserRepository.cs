@@ -112,5 +112,49 @@ namespace StackInternship.Domain.Repositories
             return rep;
         }
 
+        public bool IsOrganizator(int userId) =>
+            DbContext.Users.Where(u => u.Id == userId && u.IsOrganizer).Any() || CalculateRep(userId) >= 100000;
+
+        public bool IsTrusted(int userId) => CalculateRep(userId) >= 1000 && !IsOrganizator(userId);
+
+        public bool CanUpvoteResource(int userId, int resourceId) => !OwnsResource(userId, resourceId);
+
+        public bool CanDownvoteResource(int userId, int resourceId) => !OwnsResource(userId, resourceId);
+
+        public bool CanEditResource(int userId, int resourceId) => OwnsResource(userId, resourceId);
+
+        public bool CanDeleteResource(int userId, int resourceId) => OwnsResource(userId, resourceId);
+
+        private bool OwnsResource(int userId, int resourceId) =>
+            DbContext.Resources.Where(r => r.Id == resourceId && r.UserId == userId).Any();
+
+        public bool CanCreateComment(int userId) =>
+            IsOrganizator(userId) || CalculateRep(userId) >= 1;
+  
+        public bool CanCreateSubComment(int userId) =>
+            IsOrganizator(userId) || CalculateRep(userId) >= 3;
+
+        public bool CanUpvoteComment(int userId, int commentId) =>
+            !OwnsComment(userId, commentId) && (
+                IsOrganizator(userId) ||
+                CalculateRep(userId) >= 5
+            );
+
+        public bool CanDownvoteComment(int userId, int commentId) =>
+            !OwnsComment(userId, commentId) && (
+                IsOrganizator(userId) ||
+                CalculateRep(userId) >= (DbContext.Comments.Where(c => c.Id == commentId && c.ParentId == null).Any() ? 20 : 15)
+            );
+
+        public bool CanEditComment(int userId, int commentId) => 
+            IsOrganizator(userId) ||
+            CalculateRep(userId) >= (OwnsComment(userId, commentId) ? 100 : 250);
+
+        public bool CanDeleteComment(int userId) =>
+            IsOrganizator(userId) ||
+            CalculateRep(userId) >= 500;
+
+        private bool OwnsComment(int userId, int commentId) =>
+            DbContext.Comments.Where(c => c.Id == commentId && c.UserId == userId).Any();
     }
 }

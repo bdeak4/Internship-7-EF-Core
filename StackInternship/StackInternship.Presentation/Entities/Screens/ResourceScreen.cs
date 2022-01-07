@@ -3,8 +3,6 @@ using StackInternship.Presentation.Entities.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StackInternship.Presentation.Entities.Screens
 {
@@ -21,7 +19,9 @@ namespace StackInternship.Presentation.Entities.Screens
 
             var resource = resourceRepository.GetById(ResourceId);
 
-            var index = 3;
+            resourceRepository.View(ResourceId, UserId);
+
+            var index = 0;
 
             Console.WriteLine($@"{resource.Title}
 {string.Concat(Enumerable.Repeat("-", resource.Title.Length))}
@@ -29,18 +29,22 @@ namespace StackInternship.Presentation.Entities.Screens
 
 {resource.Content}
 
-// actions
+{Helpers.PrintResourceActions(
+    resource,
+    UserId,
+    out Dictionary<string, List<int>> permittedResourceValues,
+    index,
+    out index)}
 --
 
 {Helpers.PrintComments(
     resource.Comments,
     UserId,
-    out Dictionary<string,
-    List<int>> permittedCommentValues,
+    out Dictionary<string, List<int>> permittedCommentValues,
     index,
     out index)}
 Akcije:
-{index++} - Povratak na listu postova
+{++index} - Povratak na listu postova
 q - Quit");
             Console.ReadKey();
             return new ResourcesByCategoryScreen { UserId = UserId, ResourceCategory = resource.Category };
