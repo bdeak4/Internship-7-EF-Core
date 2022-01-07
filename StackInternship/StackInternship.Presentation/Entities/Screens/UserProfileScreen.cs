@@ -29,8 +29,7 @@ Broj primljenih downvotea: {userRepository.GetReceivedDownvotesCount(ProfileUser
 Broj poslanih upvotea: {user.Upvotes.Count}
 Broj poslanih downvotea: {user.Downvotes.Count}
 
-Akcije:
-{(UserId == ProfileUserId ? $"{++index} - promjeni korisnicko ime" : "\b" )}
+Akcije:{(UserId == ProfileUserId ? $"\n{++index} - promjeni korisnicko ime" : "")}
 {++index} - povratak na listu korisnika
 q - Quit");
 
@@ -40,7 +39,7 @@ q - Quit");
                 return null;
 
             if (input == index)
-                    return new DashboardScreen { UserId = UserId }; //todo
+                    return new UsersScreen { UserId = UserId };
 
             Console.WriteLine("Unesite sifru");
             Helpers.PasswordInput(input => userRepository.CheckPassword(user.Username, input));

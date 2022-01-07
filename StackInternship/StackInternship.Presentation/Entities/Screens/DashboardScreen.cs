@@ -26,6 +26,9 @@ q - Quit");
                 case 1:
                     return new ResourcesScreen { UserId = UserId };
 
+                case 2:
+                    return new UsersScreen { UserId = UserId };
+
                 case 3:
                     return new UnansweredResourcesScreen { UserId = UserId };
 
