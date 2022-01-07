@@ -1,7 +1,6 @@
 ﻿using StackInternship.Data.Entities.Enums;
 using StackInternship.Presentation.Entities.Interfaces;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace StackInternship.Presentation.Entities.Screens
@@ -30,7 +29,8 @@ q - Quit");
             if (input == (categories.Count + 1))
                 return new DashboardScreen { UserId = UserId };
 
-            return new ResourcesByCategoryScreen { 
+            return new ResourcesByCategoryScreen
+            {
                 UserId = UserId,
                 ResourceCategory = categories[input.GetValueOrDefault() - 1]
             };

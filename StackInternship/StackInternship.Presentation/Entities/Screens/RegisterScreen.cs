@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using StackInternship.Domain.Enums;
+﻿using StackInternship.Domain.Enums;
 using StackInternship.Domain.Factories;
 using StackInternship.Presentation.Entities.Interfaces;
 using System;

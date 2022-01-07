@@ -72,8 +72,8 @@ namespace StackInternship.Domain.Repositories
             DbContext.Users.Where(u => u.Id == userId && u.DeactivatedUntil > DateTime.Now).Any();
 
         public ICollection<User> GetAll() => DbContext.Users.ToList();
-        
-        public User GetById(int userId) => 
+
+        public User GetById(int userId) =>
             DbContext.Users
                 .Include(r => r.Resources)
                 .Include(r => r.Comments)
@@ -177,7 +177,7 @@ namespace StackInternship.Domain.Repositories
 
         public bool CanCreateComment(int userId) =>
             IsOrganizator(userId) || CalculateRep(userId) >= 1;
-  
+
         public bool CanCreateSubComment(int userId) =>
             IsOrganizator(userId) || CalculateRep(userId) >= 3;
 
@@ -198,7 +198,7 @@ namespace StackInternship.Domain.Repositories
             !DbContext.Upvotes.Where(u => u.UserId == userId && u.CommentId == commentId).Any() &&
             !DbContext.Downvotes.Where(d => d.UserId == userId && d.CommentId == commentId).Any();
 
-        public bool CanEditComment(int userId, int commentId) => 
+        public bool CanEditComment(int userId, int commentId) =>
             IsOrganizator(userId) ||
             CalculateRep(userId) >= (OwnsComment(userId, commentId) ? 100 : 250);
 

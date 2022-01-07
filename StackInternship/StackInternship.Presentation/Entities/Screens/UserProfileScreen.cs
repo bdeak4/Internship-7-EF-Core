@@ -2,7 +2,6 @@
 using StackInternship.Domain.Factories;
 using StackInternship.Presentation.Entities.Interfaces;
 using System;
-using System.Collections.Generic;
 
 namespace StackInternship.Presentation.Entities.Screens
 {
@@ -39,11 +38,11 @@ q - Quit");
                 return null;
 
             if (input == index)
-                    return new UsersScreen { UserId = UserId };
+                return new UsersScreen { UserId = UserId };
 
             Console.WriteLine("Unesite sifru");
             Helpers.PasswordInput(input => userRepository.CheckPassword(user.Username, input));
-            
+
             Console.WriteLine("Unesite novo korisnicko ime");
             var username = Helpers.TextInput(input => !userRepository.Exists(input));
 

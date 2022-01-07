@@ -1,9 +1,7 @@
-﻿using StackInternship.Data.Entities.Enums;
-using StackInternship.Domain.Enums;
+﻿using StackInternship.Domain.Enums;
 using StackInternship.Domain.Factories;
 using StackInternship.Presentation.Entities.Interfaces;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace StackInternship.Presentation.Entities.Screens
@@ -18,7 +16,7 @@ namespace StackInternship.Presentation.Entities.Screens
 
             Console.Clear();
 
-            var users = userRepository.GetAll().Where(u => 
+            var users = userRepository.GetAll().Where(u =>
                 u.DeactivatedUntil != null && u.DeactivatedUntil > DateTime.Now
             ).ToList();
 

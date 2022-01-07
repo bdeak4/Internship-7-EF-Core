@@ -1,10 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using StackInternship.Data.Entities;
-using StackInternship.Data.Entities.Enums;
 using StackInternship.Data.Entities.Models;
 using StackInternship.Domain.Enums;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace StackInternship.Domain.Repositories
@@ -17,10 +15,11 @@ namespace StackInternship.Domain.Repositories
 
         public void Add(int userId, int resourceId, int? parentId, string content)
         {
-            var comment = new Comment {
+            var comment = new Comment
+            {
                 Content = content,
-                ParentId = parentId, 
-                ResourceId = resourceId, 
+                ParentId = parentId,
+                ResourceId = resourceId,
                 UserId = userId,
                 CreatedAt = DateTime.Now
             };

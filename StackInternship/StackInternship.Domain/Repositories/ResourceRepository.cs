@@ -21,7 +21,8 @@ namespace StackInternship.Domain.Repositories
             ResourceCategory category,
             int userId)
         {
-            var resource = new Resource {
+            var resource = new Resource
+            {
                 Title = title,
                 Content = content,
                 Category = category,

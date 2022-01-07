@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
 using StackInternship.Data.Entities.Models;
 using StackInternship.Data.Seeds;
-using System;
 using System.IO;
 using System.Linq;
 

@@ -1,7 +1,6 @@
 ﻿using StackInternship.Domain.Enums;
 using StackInternship.Presentation.Entities.Interfaces;
 using System;
-using System.Collections.Generic;
 
 namespace StackInternship.Presentation.Entities.Screens
 {
@@ -13,7 +12,7 @@ namespace StackInternship.Presentation.Entities.Screens
         {
             Console.Clear();
             Console.WriteLine("Ups! Dogodila se pogreska");
-            
+
             if (Status != null)
                 Console.WriteLine($"Error status {Status}");
 

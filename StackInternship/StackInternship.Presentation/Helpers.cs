@@ -4,8 +4,6 @@ using StackInternship.Domain.Factories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StackInternship.Presentation
 {
@@ -25,7 +23,7 @@ namespace StackInternship.Presentation
 
                 if (valid && value >= 1 && value <= max)
                     return value;
-                
+
                 Console.WriteLine("Unos nije validan. Pokusajte ponovo.");
             }
         }
@@ -83,7 +81,7 @@ namespace StackInternship.Presentation
             foreach (var pv in permittedValues)
                 if (pv.Item1 == num)
                     return pv;
-           
+
             return (num, 0, UserAction.NoAction);
         }
 
@@ -91,7 +89,7 @@ namespace StackInternship.Presentation
         {
             var userRepository = RepositoryFactory.CreateUserRepository();
 
-            var rows = resources.Select((r, i) => 
+            var rows = resources.Select((r, i) =>
                 $"{i + firstIndex} - {PrintResourceMetadata(r, userId)} {r.Title}"
             );
 
@@ -117,7 +115,7 @@ namespace StackInternship.Presentation
         public static string PrintResourceActions(
             Resource r,
             int currentUserId,
-            List<(int, int, UserAction)> permittedValues, 
+            List<(int, int, UserAction)> permittedValues,
             int startIndex,
             out int index)
         {
@@ -164,10 +162,10 @@ namespace StackInternship.Presentation
             foreach (var c in comments.Where(c => c.ParentId == null))
                 output += PrintComment(
                     c,
-                    currentUserId, 
-                    permittedValues, 
-                    index, 
-                    out index, 
+                    currentUserId,
+                    permittedValues,
+                    index,
+                    out index,
                     0);
 
             return output;
@@ -184,7 +182,7 @@ namespace StackInternship.Presentation
             index = startIndex;
             var indentation = string.Concat(Enumerable.Repeat("\t", indentationLevel));
 
-            var output =  @$"{indentation}{c.Content}
+            var output = @$"{indentation}{c.Content}
 {indentation}{PrintCommentMetadata(c, currentUserId)}
 {PrintCommentActions(
     c,
@@ -270,7 +268,7 @@ namespace StackInternship.Presentation
 
             return output;
         }
-        
+
         public static string PrintUsername(User u, int currentUserId)
         {
             var userRepository = RepositoryFactory.CreateUserRepository();
@@ -286,7 +284,7 @@ namespace StackInternship.Presentation
 
             if (userRepository.IsOrganizator(u.Id))
                 color = m;
-            
+
             return $"{color}[{(u.Id == currentUserId ? "you" : u.Username)}]{n}";
         }
 

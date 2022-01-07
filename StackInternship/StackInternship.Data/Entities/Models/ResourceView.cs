@@ -2,7 +2,7 @@
 
 namespace StackInternship.Data.Entities.Models
 {
-    public class  ResourceView
+    public class ResourceView
     {
         public int Id { get; set; }
         public DateTime CreatedAt { get; set; }

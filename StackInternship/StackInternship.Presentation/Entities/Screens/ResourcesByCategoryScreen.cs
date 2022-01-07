@@ -3,10 +3,7 @@ using StackInternship.Domain.Enums;
 using StackInternship.Domain.Factories;
 using StackInternship.Presentation.Entities.Interfaces;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StackInternship.Presentation.Entities.Screens
 {

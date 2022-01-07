@@ -1,9 +1,7 @@
-﻿using StackInternship.Data.Entities.Enums;
-using StackInternship.Domain.Enums;
+﻿using StackInternship.Domain.Enums;
 using StackInternship.Domain.Factories;
 using StackInternship.Presentation.Entities.Interfaces;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace StackInternship.Presentation.Entities.Screens
@@ -19,7 +17,8 @@ namespace StackInternship.Presentation.Entities.Screens
 
             Console.Clear();
 
-            var users = userRepository.GetAll().Where(u => {
+            var users = userRepository.GetAll().Where(u =>
+            {
                 switch (Filter)
                 {
                     case UserFilter.Organizers:
@@ -50,7 +49,7 @@ q - Quit");
             if (input == null)
                 return null;
 
-            if(input == (users.Count + 1))
+            if (input == (users.Count + 1))
                 return new UsersScreen { UserId = UserId, Filter = UserFilter.Organizers };
 
             if (input == (users.Count + 2))
@@ -65,7 +64,8 @@ q - Quit");
             if (input == (users.Count + 5))
                 return new DashboardScreen { UserId = UserId };
 
-            return new UserProfileScreen { 
+            return new UserProfileScreen
+            {
                 UserId = UserId,
                 ProfileUserId = users[input.GetValueOrDefault() - 1].Id
             };

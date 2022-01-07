@@ -1,6 +1,5 @@
 ﻿using StackInternship.Presentation.Entities.Interfaces;
 using StackInternship.Presentation.Entities.Screens;
-using System;
 
 namespace StackInternship.Presentation
 {

@@ -3,10 +3,8 @@ using StackInternship.Data.Entities.Enums;
 using StackInternship.Data.Entities.Models;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace StackInternship.Data.Seeds
 {
@@ -40,7 +38,7 @@ namespace StackInternship.Data.Seeds
                         CreatedAt = DateTime.Today,
                         IsOrganizer = true
                     }
-                }) ;
+                });
 
             builder.Entity<Resource>()
                 .HasData(new List<Resource>
