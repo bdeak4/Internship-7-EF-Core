@@ -54,38 +54,57 @@ q - Quit");
 
             if (input == null)
                 return null;
-            
+
             if (input == index)
                 return new ResourcesByCategoryScreen { UserId = UserId, ResourceCategory = resource.Category };
 
-            switch(action)
+            switch (action)
             {
-                //case UserAction.CreateComment:
+                case UserAction.CreateComment:
+                    Console.WriteLine("Unesite sadrzaj komentara");
+                    commentRepository.Add(UserId, ResourceId, null, Helpers.TextInput(input => true));
+                    break;
 
-                //case UserAction.CreateSubComment:
+                case UserAction.CreateSubComment:
+                    Console.WriteLine("Unesite sadrzaj komentara");
+                    commentRepository.Add(UserId, ResourceId, id, Helpers.TextInput(input => true));
+                    break;
 
                 case UserAction.UpvoteResource:
                     resourceRepository.Upvote(ResourceId, UserId);
-                    return new ResourceScreen { UserId = UserId, ResourceId = ResourceId };
+                    break;
 
                 case UserAction.DownvoteResource:
                     resourceRepository.Downvote(ResourceId, UserId);
-                    return new ResourceScreen { UserId = UserId, ResourceId = ResourceId };
+                    break;
 
                 case UserAction.UpvoteComment:
                     commentRepository.Upvote(id, UserId);
-                    return new ResourceScreen { UserId = UserId, ResourceId = ResourceId };
+                    break;
 
                 case UserAction.DownvoteComment:
                     commentRepository.Downvote(id, UserId);
-                    return new ResourceScreen { UserId = UserId, ResourceId = ResourceId };
+                    break;
 
-                //case UserAction.EditComment:
+                case UserAction.EditComment:
+                    Console.WriteLine("Unesite sadrzaj komentara");
+                    var editCommentStatus = commentRepository.Edit(id, Helpers.TextInput(input => true));
 
-                //case UserAction.DeleteComment:
+                    if (editCommentStatus != ResponseResultType.Success)
+                        return new ErrorScreen { Status = editCommentStatus };
+
+                    break;
+
+                case UserAction.DeleteComment:
+                    var deleteCommentStatus = commentRepository.Delete(id);
+
+                    if (deleteCommentStatus != ResponseResultType.Success)
+                        return new ErrorScreen { Status = deleteCommentStatus };
+
+                    break;
             }
 
-            return new ResourcesByCategoryScreen { UserId = UserId, ResourceCategory = resource.Category };
+            return new ResourceScreen { UserId = UserId, ResourceId = ResourceId };
         }
     }
 }
