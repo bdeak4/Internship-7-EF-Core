@@ -1,0 +1,42 @@
+﻿using StackInternship.Data.Entities.Enums;
+using StackInternship.Domain.Factories;
+using StackInternship.Presentation.Entities.Interfaces;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace StackInternship.Presentation.Entities.Screens
+{
+    public class PopularResourcesScreen : IScreen
+    {
+        public int UserId;
+
+        public IScreen Render()
+        {
+            var resourceRepository = RepositoryFactory.CreateResourceRepository();
+
+            Console.Clear();
+
+            var resources = resourceRepository.GetPopular().ToList();
+
+            Console.WriteLine($@"Popularni resursi
+{Helpers.PrintResources(resources, 1, UserId)}
+{resources.Count + 1} - Povratak u dashboard
+q - Quit");
+
+            var input = Helpers.NumberInput(max: resources.Count + 1);
+
+            if (input == null)
+                return null;
+
+            if (input == (resources.Count + 1))
+                return new DashboardScreen { UserId = UserId };
+
+            var resource = resources[input.GetValueOrDefault() - 1];
+
+            return new ResourceScreen { UserId = UserId, ResourceId = resource.Id };
+        }
+    }
+}

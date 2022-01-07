@@ -38,6 +38,28 @@ namespace StackInternship.Domain.Repositories
                 .OrderByDescending(r => r.CreatedAt)
                 .ToList();
 
+        public ICollection<Resource> GetUnanswered() =>
+            DbContext.Resources
+                .Include(r => r.User)
+                .Include(r => r.Upvotes)
+                .Include(r => r.Downvotes)
+                .Include(r => r.Views)
+                .Where(r => !r.Comments.Any())
+                .OrderByDescending(r => r.CreatedAt)
+                .ToList();
+
+        public ICollection<Resource> GetPopular() =>
+            DbContext.Resources
+                .Include(r => r.User)
+                .Include(r => r.Upvotes)
+                .Include(r => r.Downvotes)
+                .Include(r => r.Views)
+                .Include(r => r.Comments)
+                .ToList()
+                .OrderByDescending(r => r.Comments.Count)
+                .Take(5)
+                .ToList();
+
         public void View(int resourceId, int userId)
         {
             var view = new ResourceView { ResourceId = resourceId, UserId = userId, CreatedAt = DateTime.Now };
