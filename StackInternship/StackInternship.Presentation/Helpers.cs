@@ -270,7 +270,7 @@ namespace StackInternship.Presentation
 
             return output;
         }
-
+        
         public static string PrintUsername(User u, int currentUserId)
         {
             var userRepository = RepositoryFactory.CreateUserRepository();
@@ -288,7 +288,6 @@ namespace StackInternship.Presentation
                 color = m;
             
             return $"{color}[{(u.Id == currentUserId ? "you" : u.Username)}]{n}";
-
         }
 
 

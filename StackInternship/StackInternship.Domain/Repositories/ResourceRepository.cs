@@ -2,7 +2,6 @@
 using StackInternship.Data.Entities;
 using StackInternship.Data.Entities.Enums;
 using StackInternship.Data.Entities.Models;
-using StackInternship.Domain.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
